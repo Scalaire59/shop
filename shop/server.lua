@@ -1,5 +1,4 @@
-RegisterServerEvent('buyItem')
-AddEventHandler('buyItem', function(itemName, itemPrice)
+RegisterNetEvent('buyItem', function(itemName, itemPrice)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local Playermoney = xPlayer.getMoney()
