@@ -35,8 +35,7 @@ for k, v in ipairs(Config.Boisson) do
         iconColor = v.iconColor,
         onSelect = function()
             local itemName = v.item
-            local itemPrice = v.price
-            TriggerServerEvent('buyItem', itemName, itemPrice)
+            TriggerServerEvent('buyItem', itemName)
         end
     })
 end

@@ -1,7 +1,24 @@
-RegisterNetEvent('buyItem', function(itemName, itemPrice)
+RegisterNetEvent('buyItem', function(itemName)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local Playermoney = xPlayer.getMoney()
+
+    local itemPrice
+    for _,v in pairs(Config.Nourriture) do
+        if v.item == itemName then
+            itemPrice = v.price
+        end
+    end
+    if not itemPrice then
+        for _,v in pairs(Config.Boisson) do
+            if v.item == itemName then
+                itemPrice = v.price
+            end
+        end
+    end
+    if not itemPrice then
+        return
+    end
 
     if Playermoney >= itemPrice then
         if xPlayer ~= nil then
