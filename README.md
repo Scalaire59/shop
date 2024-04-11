@@ -1,6 +1,6 @@
 # shop
 
-voici mon tout premier script fivem c est un shop pour shop pnj
+voici mon tout premier script fivem c est un shop pnj
 
 # dependances
 Esx 
