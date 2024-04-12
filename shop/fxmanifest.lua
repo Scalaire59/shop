@@ -1,20 +1,13 @@
-fx_version "cerulean"
-game "gta5"
-lua54 'yes'
+fx_version("cerulean")
+game("gta5")
+lua54("yes")
 
-client_script "client.lua"
+client_script("client.lua")
 
-server_script "server.lua"
+server_script("server.lua")
 
 shared_scripts({
-    "config.lua",
-    '@ox_lib/init.lua',
-    '@es_extended/imports.lua', 
-}) 
-
-
-
-  
-
-
-
+	"config.lua",
+	"@ox_lib/init.lua",
+	"@es_extended/imports.lua",
+})
