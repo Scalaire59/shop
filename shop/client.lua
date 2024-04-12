@@ -75,7 +75,7 @@ Citizen.CreateThread(function()
 		if distance < 2 then
 			Sleep = 0
 			lib.showTextUI("[E] - Ouvrir le Shop", {
-				position = "right-center",
+				position = "top-center",
 				icon = "shop",
 				style = {
 					borderRadius = 0,
