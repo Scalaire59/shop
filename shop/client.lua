@@ -67,7 +67,7 @@ lib.registerContext({
 
 Citizen.CreateThread(function()
 	while true do
-		Sleep = 1000
+		Sleep = 10
 		local player = PlayerPedId()
 		local playerCoords = GetEntityCoords(player)
 		local distance = GetDistanceBetweenCoords(Config.ShopPosition, playerCoords, false)
