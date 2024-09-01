@@ -3,11 +3,11 @@
 n = {}
 
 for k, v in ipairs(Config.Nourriture) do
-	table.insert(n, {
-		title = v.label,
+    table.insert(n, {
+        title = v.label,
 		description = ("Prix: %s"):format(v.price),
 		icon = v.icon,
-		iconColor = v.iconColor,
+        iconColor = v.iconColor,
 		onSelect = function()
 			local itemName = v.item
 			local itemPrice = v.price
@@ -65,32 +65,50 @@ lib.registerContext({
 
 -- ouvrir le menu avec la touche E
 
+local isEnter = false
+local currentShop = nil
 Citizen.CreateThread(function()
 	while true do
-		Sleep = 10
+		for k, v in pairs(Config.ShopPosition) do
+		Sleep = 100
 		local player = PlayerPedId()
 		local playerCoords = GetEntityCoords(player)
-		local distance = GetDistanceBetweenCoords(Config.ShopPosition, playerCoords, false)
+		local distance = #(v - playerCoords)
 
 		if distance < 2 then
+			currentShop = v
 			Sleep = 0
-			lib.showTextUI("[E] - Ouvrir le Shop", {
-				position = "top-center",
-				icon = "shop",
-				style = {
-					borderRadius = 0,
-					backgroundColor = "#48BB78",
-					color = "white",
-				},
-			})
+			isEnter = true
+			
+				local isOpen,text = lib.isTextUIOpen()
+				if not isOpen then
+					lib.showTextUI("[E] - Ouvrir le Shop", {
+						position = "top-center",
+						icon = "shop",
+						style = {
+							borderRadius = 0,
+							backgroundColor = "#48BB78",
+							color = "white",
+						},
+					})
+					
+				end
 
 			if IsControlJustPressed(0, 51) then
 				lib.showContext("menu_shop")
 			end
-		else
-			lib.hideTextUI()
+		
+			
+		end
+		if currentShop and GetDistanceBetweenCoords(currentShop, playerCoords) > 2 then
+			if isEnter then
+				lib.hideTextUI()
+				isEnter = false
+				currentShop = nil
+			end
 		end
 		Wait(Sleep)
+		end
 	end
 end)
 
@@ -101,8 +119,21 @@ end)
 local blips = {
 	-- Example {title="", colour=, id=, x=, y=, z=},
 
-	{ title = "Shop-scalaire", colour = 5, id = 628, x = -46.57727, y = -1757.823, z = 29.42101 },
+	{ title = "Shop", colour = 5, id = 628, x = -46.57727, y = -1757.823, z = 29.42101 },
+	{ title = "Shop", colour = 5, id = 628, x = 25.7, y = -1347.3, z = 29.42101 },
+	{ title = "Shop", colour = 5, id = 628, x = -3038.71, y = 585.9, z = 7.9 },
+	{ title = "Shop", colour = 5, id = 628, x = -3241.47, y = 1001.14, z =  12.83 },
+	{ title = "Shop", colour = 5, id = 628, x = 1728.66, y = 6414.16, z = 35.03 },
+	{ title = "Shop", colour = 5, id = 628, x = 1697.99, y = 4924.4, z = 42.06 },
+	{ title = "Shop", colour = 5, id = 628, x = 1961.48, y = 3739.96, z = 32.34 },
+	{ title = "Shop", colour = 5, id = 628, x = 547.79, y = 2671.79, z = 42.15 },
+	{ title = "Shop", colour = 5, id = 628, x = 2679.25, y = 3280.12, z = 55.24 },
+	{ title = "Shop", colour = 5, id = 628, x = 2557.94, y = 382.05, z = 108.62 },
+	{ title = "Shop", colour = 5, id = 628, x = 373.55, y = 325.56, z = 103.56 },
+	
 }
+
+
 
 Citizen.CreateThread(function()
 	for _, info in pairs(blips) do
