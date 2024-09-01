@@ -10,7 +10,8 @@ voici mon tout premier script fivem c est un shop pnj
 
 - [x] Cree un README.md
 - [x] Cree le menu
-- [x] Instaurer le systeme d achat 
+- [x] Instaurer le systeme d achat
+- [x] Ajout de plusieurs magasin sur toute la map
 - [x] Plaisir de vivre l'expérience lorsque toutes les tâches sont terminées :tada:
 
 ### voilà pour mon 1er script fivem 
