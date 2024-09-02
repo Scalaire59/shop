@@ -67,56 +67,53 @@ lib.registerContext({
 
 local isEnter = false
 local currentShop = nil
+
 Citizen.CreateThread(function()
-	while true do
-		for k, v in pairs(Config.ShopPosition) do
-		Sleep = 100
-		local player = PlayerPedId()
-		local playerCoords = GetEntityCoords(player)
-		local distance = #(v - playerCoords)
+    while true do
+        local sleep = 100
+        local playerCoords = GetEntityCoords(PlayerPedId())
 
-		if distance < 2 then
-			currentShop = v
-			Sleep = 0
-			Citizen.Wait(Sleep)
-			isEnter = true
-			
-				local isOpen,text = lib.isTextUIOpen()
-				if not isOpen then
-					lib.showTextUI("[E] - Ouvrir le Shop", {
-						position = "top-center",
-						icon = "shop",
-						style = {
-							borderRadius = 0,
-							backgroundColor = "#48BB78",
-							color = "white",
-						},
-					})
-					
-				end
+        for _, shopPos in pairs(Config.ShopPosition) do
+            local distance = #(shopPos - playerCoords)
 
-				local keybindE = lib.addKeybind({
-					name = 'menu_shop',
-					description = 'Ouvir la superette',
-					defaultKey = 'E',
-					onPressed = function(self)
-						lib.showContext("menu_shop")
-					end,
-				})
-			
-		end
-		if currentShop and GetDistanceBetweenCoords(currentShop, playerCoords) > 2 then
-			if isEnter then
-				lib.hideTextUI()
-				isEnter = false
-				currentShop = nil
-			end
-		end
-		Wait(Sleep)
-		end
-	end
+            if distance < 2 then
+                currentShop = shopPos
+                sleep = 0
+                isEnter = true
+
+                if not lib.isTextUIOpen() then
+                    lib.showTextUI("[E] - Ouvrir le Shop", {
+                        position = "top-center",
+                        icon = "shop",
+                        style = {
+                            borderRadius = 0,
+                            backgroundColor = "#48BB78",
+                            color = "white",
+                        },
+                    })
+                end
+
+                lib.addKeybind({
+                    name = 'menu_shop',
+                    description = 'Ouvrir la superette',
+                    defaultKey = 'E',
+                    onPressed = function()
+                        if #(currentShop - GetEntityCoords(PlayerPedId())) < 2 then
+                            lib.showContext("menu_shop")
+                        end
+                    end,
+                })
+            elseif currentShop and #(currentShop - playerCoords) > 2 then
+                if isEnter then
+                    lib.hideTextUI()
+                    isEnter = false
+                    currentShop = nil
+                end
+            end
+        end
+        Citizen.Wait(sleep)
+    end
 end)
-
 
 
 -- RegisterCommand("menu", function()
@@ -143,15 +140,15 @@ local blips = {
 
 
 Citizen.CreateThread(function()
-	for _, info in pairs(blips) do
-		info.blip = AddBlipForCoord(info.x, info.y, info.z)
-		SetBlipSprite(info.blip, info.id)
-		SetBlipDisplay(info.blip, 4)
-		SetBlipScale(info.blip, 1.0)
-		SetBlipColour(info.blip, info.colour)
-		SetBlipAsShortRange(info.blip, true)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString(info.title)
-		EndTextCommandSetBlipName(info.blip)
-	end
-end)
+    for _, info in pairs(Config.ShopPosition) do
+        local blip = AddBlipForCoord(info.x, info.y, info.z)
+        SetBlipSprite(blip, 628)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 1.0)
+        SetBlipColour(blip, 5)
+        SetBlipAsShortRange(blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString("Shop")
+        EndTextCommandSetBlipName(blip)
+    end
+end) 
