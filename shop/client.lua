@@ -78,6 +78,7 @@ Citizen.CreateThread(function()
 		if distance < 2 then
 			currentShop = v
 			Sleep = 0
+			Citizen.Wait(Sleep)
 			isEnter = true
 			
 				local isOpen,text = lib.isTextUIOpen()
@@ -94,10 +95,14 @@ Citizen.CreateThread(function()
 					
 				end
 
-			if IsControlJustPressed(0, 51) then
-				lib.showContext("menu_shop")
-			end
-		
+				local keybindE = lib.addKeybind({
+					name = 'menu_shop',
+					description = 'Ouvir la superette',
+					defaultKey = 'E',
+					onPressed = function(self)
+						lib.showContext("menu_shop")
+					end,
+				})
 			
 		end
 		if currentShop and GetDistanceBetweenCoords(currentShop, playerCoords) > 2 then
@@ -111,6 +116,8 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+
 
 -- RegisterCommand("menu", function()
 --     lib.showContext('menue')
